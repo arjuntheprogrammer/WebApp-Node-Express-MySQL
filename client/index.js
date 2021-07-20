@@ -4,12 +4,12 @@ document.addEventListener("DOMContentLoaded", function () {
         .then(data => loadHTMLTable(data['data']));
 })
 
-// const deleteBtn = document.querySelector('#delete-row-btn');
-// const editBtn = document.querySelector('#edit-row-btn');
-
 document.querySelector('table tbody').addEventListener('click', function (event) {
     if (event.target.className === 'delete-row-btn') {
         deleteRowById(event.target.dataset.id);
+    }
+    if (event.target.className === "edit-row-btn") {
+        handleEditRow(event.target.dataset.id);
     }
 });
 
@@ -24,6 +24,35 @@ function deleteRowById(id) {
             }
         });
 }
+
+const updateBtn = document.querySelector('#update-row-btn');
+updateBtn.onclick = function () {
+    const updatedNameInput = document.querySelector('#update-name-input')
+
+    fetch('http://localhost:5000/update/', {
+            method: 'PATCH',
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify({
+                id: updatedNameInput.dataset.id,
+                name: updatedNameInput.value
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload();
+            }
+        });
+}
+
+function handleEditRow(id) {
+    const updateSection = document.querySelector("#update-row");
+    updateSection.hidden = false;
+    document.querySelector('#update-name-input').dataset.id = id;
+}
+
 
 const addBtn = document.querySelector('#add-name-btn');
 
