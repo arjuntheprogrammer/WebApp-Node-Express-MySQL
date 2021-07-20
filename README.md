@@ -19,7 +19,9 @@
 
 ### Commands
 
-Setup and Install:
+Server Setup and Installation:
+
+- $ cd server
 
 - $ npm init -y
 
