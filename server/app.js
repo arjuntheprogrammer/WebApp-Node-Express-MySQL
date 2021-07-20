@@ -80,6 +80,23 @@ app.delete('/delete/:id', (request, response) => {
 
 });
 
+// Search
+app.get('/search/:name', (request, response) => {
+    // console.log(request.params);
+    const {
+        name
+    } = request.params;
+    const db = dbService.getDBServiceInstance();
+    const result = db.searchByName(name);
+
+    result
+        .then(data => response.json({
+            data: data
+        }))
+        .catch(err => console.log(err));
+
+
+});
 // Listen
 app.listen(
     process.env.PORT,
