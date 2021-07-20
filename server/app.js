@@ -47,7 +47,24 @@ app.get('/getAll', (request, response) => {
 
 
 // Delete
+app.delete('/delete/:id', (request, response) => {
+    // console.log(request.params);
+    const {
+        id
+    } = request.params;
+    const db = dbService.getDBServiceInstance();
+    const result = db.deleteRowById(id);
 
+    result
+        .then(data => response.json({
+            success: data
+        }))
+        .catch(err => console.log(err));
+
+
+});
+
+// Listen
 app.listen(
     process.env.PORT,
     () => console.log('app is running')

@@ -2,11 +2,31 @@ document.addEventListener("DOMContentLoaded", function () {
     fetch('http://localhost:5000/getAll')
         .then(response => response.json())
         .then(data => loadHTMLTable(data['data']));
-
-    // loadHTMLTable([]);
 })
 
+// const deleteBtn = document.querySelector('#delete-row-btn');
+// const editBtn = document.querySelector('#edit-row-btn');
+
+document.querySelector('table tbody').addEventListener('click', function (event) {
+    if (event.target.className === 'delete-row-btn') {
+        deleteRowById(event.target.dataset.id);
+    }
+});
+
+function deleteRowById(id) {
+    fetch('http://localhost:5000/delete/' + id, {
+            method: 'DELETE'
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload();
+            }
+        });
+}
+
 const addBtn = document.querySelector('#add-name-btn');
+
 addBtn.onclick = function () {
     const nameInput = document.querySelector('#name-input');
 
