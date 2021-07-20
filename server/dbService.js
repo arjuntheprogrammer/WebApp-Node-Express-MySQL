@@ -27,13 +27,34 @@ class DBService {
         try {
             const response = await new Promise((resolve, reject) => {
                 const query = "SELECT * from names;";
-                connection.query(query, (err, results) => {
+                connection.query(query, (err, result) => {
                     if (err) reject(new Error(err.message));
-                    resolve(results);
+                    resolve(result);
                 });
             })
-            console.log(response);
+            // console.log(response);
             return response;
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    async insertNewName(name) {
+        try {
+            const dateAdded = new Date();
+            const insertId = await new Promise((resolve, reject) => {
+                const query = "INSERT INTO names (name, date_added) VALUES (?,?);";
+                connection.query(query, [name, dateAdded], (err, result) => {
+                    if (err) reject(new Error(err.message));
+                    resolve(result.insertId);
+                });
+            })
+            console.log(insertId);
+            return {
+                id: insertId,
+                name: name,
+                dateAdded: dateAdded,
+            };
         } catch (error) {
             console.log(error)
         }

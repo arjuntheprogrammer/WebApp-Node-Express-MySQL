@@ -15,7 +15,19 @@ app.use(express.urlencoded({
 
 // Create
 app.post('/insert', (request, response) => {
+    // console.log(request.body);
+    const {
+        name
+    } = request.body;
 
+    const db = dbService.getDBServiceInstance();
+    const result = db.insertNewName(name);
+
+    result
+        .then(data => response.json({
+            data: data
+        }))
+        .catch(err => console.log(err));
 });
 
 // Read
