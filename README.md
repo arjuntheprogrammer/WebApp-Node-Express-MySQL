@@ -1,4 +1,4 @@
-# Express Backend Server
+# WEB-APP: Node Express MySQL
 
 ## FEATURES
 
